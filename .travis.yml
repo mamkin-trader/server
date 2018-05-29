@@ -12,7 +12,9 @@ env:
     - POSTGRES_DB=travis
     - POSTGRES_USER=travis
 
-script:
+before_script:
   - python wait_for_postgres.py
   - ./manage.py migrate
+
+script:
   - ./manage.py test
