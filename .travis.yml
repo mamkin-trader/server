@@ -1,0 +1,18 @@
+language: python
+python:
+  - "3.6"
+cache: pip
+
+addons:
+  postgresql: "9.6"
+
+env:
+  global:
+    - DJANGO_SECRET_KEY=travis
+    - POSTGRES_DB=travis
+    - POSTGRES_USER=travis
+
+script:
+  - python wait_for_postgres.py
+  - ./manage.py migrate
+  - ./manage.py test

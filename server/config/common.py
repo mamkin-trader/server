@@ -60,7 +60,7 @@ class Common(Configuration):
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
-            default='postgres://postgres:@postgres:5432/postgres',
+            default=f'postgres://{os.getenv("POSTGRES_USER")}@localhost:5432/{os.getenv("POSTGRES_DB")}',
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }
