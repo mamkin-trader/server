@@ -1,4 +1,4 @@
-![Mamkin Trader](/img/logo.png?raw=true)
+![Mamkin Trader](/img/github-header.png?raw=true)
 # Mamkin Trader server
 This is the repository for Mamkin Trader server.
 ## Structure of repositories
