@@ -1,29 +1,29 @@
-version: '2'
+version: '3.6'
 
 services:
   postgres:
-    image: postgres:9.6
+    restart: always
+    image: postgres:latest
   web:
+    build: ./server
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
     image: web
-    build: ./
-    command: >
-      bash -c "python wait_for_postgres.py &&
-               ./manage.py migrate &&
-               ./manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./:/code
+      - ./server:/docker_server
     ports:
       - "8000:8000"
     depends_on:
       - postgres
   documentation:
     restart: always
-    build: ./
+    build: ./docs
     command: "mkdocs serve"
     volumes:
-      - ./:/code
+      - ./docs:/docker_server
     ports:
       - "8001:8001"
+    depends_on:
+      - web
