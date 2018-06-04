@@ -1,9 +1,0 @@
-import server.users.schema
-import graphene
-
-from graphene_django.debug import DjangoDebug
-
-class Query(server.users.schema.Query, graphene.ObjectType):
-    debug = graphene.Field(DjangoDebug, name='__debug')
-
-schema = graphene.Schema(query=Query)
