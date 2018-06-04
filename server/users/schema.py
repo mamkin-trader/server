@@ -7,6 +7,9 @@ class UserType(DjangoObjectType):
 
     class Meta:
         model = UserModel
+        interfaces = (graphene.Node, )
+        only_fields = ('username', 'first_name')
+        filter_fields = ['username', ]
 
 class CreateUser(graphene.Mutation):
     user = graphene.Field(UserType)
@@ -26,14 +29,13 @@ class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
 
 class Query(graphene.ObjectType):
-    me = graphene.Field(UserType)
-    users = graphene.List(UserType)
+    user = graphene.Field(UserType, username=graphene.String())
+    all_users = DjangoFilterConnectionField(UserType)
 
-    def resolve_users(self, info):
-        return UserModel.objects.all()
+    def resolve_user(self, args, ctx, info):
+        username = args.get('username')
 
-    def reslove_me(self, info):
-        user = info.context.user
-        if user.is_anonymous:
-            raise Exception('Not logged!')
-        return user
+        if username is not None:
+            return UserModel.objects.get(username=username)
+        
+        return None
