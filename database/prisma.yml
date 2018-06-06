@@ -1,0 +1,17 @@
+service: mamkin-trader
+
+stage: dev
+
+endpoint: ${env:PRISMA_ENDPOINT}
+
+datamodel: datamodel.graphql
+
+seed:
+  import: seed.graphql
+
+hooks:
+  post-deploy:
+    - graphql get-schema -p prisma
+    - graphql codegen
+
+# secret: ${env:PRISMA_SECRET}

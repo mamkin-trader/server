@@ -1,0 +1,7 @@
+mutation {
+  createUser(data: {
+    name: "Bob"
+    }) {
+    id
+  }
+}
